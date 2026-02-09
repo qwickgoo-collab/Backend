@@ -1,0 +1,6 @@
+@qwick_go_HostAddress = http://localhost:5084
+
+GET {{qwick_go_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
