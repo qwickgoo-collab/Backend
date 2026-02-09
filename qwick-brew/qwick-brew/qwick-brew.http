@@ -1,6 +1,0 @@
-@qwick_brew_HostAddress = http://localhost:5070
-
-GET {{qwick_brew_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
