@@ -1,4 +1,13 @@
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using QwickGo.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//postgre
+builder.Services.AddDbContext<QwickGoDbContext>(Options =>
+Options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 // Add services to the container.
 
