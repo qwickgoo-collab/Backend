@@ -23,6 +23,9 @@ public class User
 
     public UserRole Role {get; set;} = UserRole.Customer;
 
+    public string? FirebaseUid {get; set;}
+    public string AuthProvider {get; set;} = "Email";
+
     public bool IsEmailVerified {get; set;} = false;
 
     public bool IsPhoneVerified {get; set;} = false;

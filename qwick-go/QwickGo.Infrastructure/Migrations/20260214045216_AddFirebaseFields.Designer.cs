@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QwickGo.Infrastructure.Data;
@@ -11,9 +12,11 @@ using QwickGo.Infrastructure.Data;
 namespace QwickGo.Infrastructure.Migrations
 {
     [DbContext(typeof(QwickGoDbContext))]
-    partial class QwickGoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260214045216_AddFirebaseFields")]
+    partial class AddFirebaseFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
