@@ -14,5 +14,9 @@ public class QwickGoDbContext : DbContext
     modelBuilder.Entity<User>()
     .Property(u => u.Role)
     .HasConversion<string>();
+
+    modelBuilder.Entity<User>()
+    .Property(u => u.AuthProvider)
+    .HasConversion<string>();
     }
 }

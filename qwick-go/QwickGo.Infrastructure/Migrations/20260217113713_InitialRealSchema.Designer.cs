@@ -12,8 +12,8 @@ using QwickGo.Infrastructure.Data;
 namespace QwickGo.Infrastructure.Migrations
 {
     [DbContext(typeof(QwickGoDbContext))]
-    [Migration("20260211092650_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260217113713_InitialRealSchema")]
+    partial class InitialRealSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,18 @@ namespace QwickGo.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserID"));
 
+                    b.Property<string>("AuthProvider")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirebaseUid")
                         .HasColumnType("text");
 
                     b.Property<bool>("IsEmailVerified")
@@ -58,6 +65,12 @@ namespace QwickGo.Infrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Role")
                         .IsRequired()

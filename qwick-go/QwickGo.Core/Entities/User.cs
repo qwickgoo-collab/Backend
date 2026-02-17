@@ -24,11 +24,13 @@ public class User
     public UserRole Role {get; set;} = UserRole.Customer;
 
     public string? FirebaseUid {get; set;}
-    public string AuthProvider {get; set;} = "Email";
+    public AuthProvider AuthProvider {get; set;} = AuthProvider.Email;
 
     public bool IsEmailVerified {get; set;} = false;
 
     public bool IsPhoneVerified {get; set;} = false;
+    public string? RefreshToken {get; set;}
+    public DateTime? RefreshTokenExpiry {get; set;}
 
     public DateTime CreatedTime {get; set;} = DateTime.UtcNow;
 
