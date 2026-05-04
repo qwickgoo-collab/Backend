@@ -13,11 +13,6 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    // public async Task<User?> GetByFirebaseUid(string uid)
-    // {
-        
-    // }
-
     public async Task<User?> GetUserByEmail(string email)
     {
         User? user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);

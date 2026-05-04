@@ -67,4 +67,51 @@ public class AuthService : IAuthServices
             UserExist = false
         };
     }
+
+    public async Task<AuthResponseDto> EmailSignup(EmailRequestDto request)
+    {
+        FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.Token);
+        string uid = decodedToken.Uid;
+
+        var user = await _userRepository.GetUserByEmail(request.Email);
+        if(user != null)
+        {
+         return new AuthResponseDto
+         {
+             UserExist = true,
+             Message = "User already exists",
+             Email = request.Email
+         }; 
+        }
+
+        user = new User
+        {
+            Name = request.Name,
+            Email = request.Email,
+            PhoneNumber = request.Phone ?? "",
+            Role = UserRole.Owner,
+            AuthProvider = AuthProvider.Email,
+            IsEmailVerified = true,
+            CreatedTime = DateTime.UtcNow,
+            FirebaseUid = uid
+        };
+
+        await _userRepository.AddUser(user);
+
+        var jwtToken = _tokenServices.GenerateAccessToken(user);
+        var refreshToken = _tokenServices.GenerateRefreshToken();
+
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        await _userRepository.SaveChangesAsync();  
+
+        return new AuthResponseDto
+        {
+            Token = jwtToken,
+            RefreshToken = user.RefreshToken,
+            Email = request.Email,
+            Role = user.Role.ToString(),
+            UserExist = false
+        };   
+    }
 }

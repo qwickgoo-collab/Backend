@@ -18,9 +18,6 @@ public class User
     [Required]
     public string PhoneNumber {get; set;} = string.Empty;
 
-    [Required]
-    public string PasswordHash {get; set;} = string.Empty;
-
     public UserRole Role {get; set;} = UserRole.Customer;
 
     public string? FirebaseUid {get; set;}

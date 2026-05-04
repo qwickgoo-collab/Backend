@@ -19,6 +19,9 @@ public class AuthController : ControllerBase
         _authServices = authServices;
     }
 
+/*
+Google Singup - Accepts a Firebase token from the client, verifies it with Firebase Admin SDK, and checks if a user with the corresponding email already exists in the database. If the user exists, it returns a conflict response. If not, it creates a new user record in the database with the information from the Firebase token, generates a JWT access token and a refresh token, and returns them to the client. The refresh token is also stored in an HTTP-only cookie for secure storage on the client side.
+*/
     [HttpPost("google-signup")]
     public async Task<IActionResult> GoogleSignup([FromBody] GoogleRequest request)
     {
@@ -49,6 +52,42 @@ public class AuthController : ControllerBase
         }catch (Exception e)
         {
             return BadRequest(new {Error = e.Message});
+        }
+    }
+
+/*
+email Signup - Accepts user details (name, email, phone, and password) from the client, checks if a user with the provided email already exists in the database. If the user exists, it returns a conflict response. If not, it creates a new user record in the database with the provided information, generates a JWT access token and a refresh token, and returns them to the client. The refresh token is also stored in an HTTP-only cookie for secure storage on the client side.
+*/
+    [HttpPost("email-signup")]
+    public async Task<IActionResult> EmailSignup([FromBody] EmailRequestDto request){
+        try
+        {
+            Console.WriteLine("Came");
+            var result = await _authServices.EmailSignup(request);
+            Console.WriteLine("Came");
+            if(result.UserExist)
+            {
+                return Conflict(new{Message="User already exists", Email=result.Email});
+            }
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Path = "/"
+            };
+              Console.WriteLine("Came");
+            Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+            Console.WriteLine("Came");
+            return Ok(new
+            {
+                Token = result.Token,
+                data = result
+            });
+        }catch(Exception e)
+        {
+            return BadRequest(new { Error = e.Message });
         }
     }
 }
