@@ -51,19 +51,15 @@ public class AuthService : IAuthServices
 
         await _userRepository.AddUser(user);
 
-        var jwtToken = _tokenServices.GenerateAccessToken(user);
-        var refreshToken = _tokenServices.GenerateRefreshToken();
+        // var jwtToken = _tokenServices.GenerateAccessToken(user);
+        // var refreshToken = _tokenServices.GenerateRefreshToken();
 
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        // user.RefreshToken = refreshToken;
+        // user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
         await _userRepository.SaveChangesAsync();
 
         return new AuthResponseDto
         {
-            Token = jwtToken,
-            RefreshToken = user.RefreshToken,
-            Email = email,
-            Role = user.Role.ToString(),
             UserExist = false
         };
     }
@@ -98,19 +94,15 @@ public class AuthService : IAuthServices
 
         await _userRepository.AddUser(user);
 
-        var jwtToken = _tokenServices.GenerateAccessToken(user);
-        var refreshToken = _tokenServices.GenerateRefreshToken();
+        // var jwtToken = _tokenServices.GenerateAccessToken(user);
+        // var refreshToken = _tokenServices.GenerateRefreshToken();
 
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        // user.RefreshToken = refreshToken;
+        // user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
         await _userRepository.SaveChangesAsync();  
 
         return new AuthResponseDto
         {
-            Token = jwtToken,
-            RefreshToken = user.RefreshToken,
-            Email = request.Email,
-            Role = user.Role.ToString(),
             UserExist = false
         };   
     }

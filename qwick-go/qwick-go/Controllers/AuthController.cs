@@ -31,24 +31,21 @@ Google Singup - Accepts a Firebase token from the client, verifies it with Fireb
 
             if(result.UserExist)
             {
-                return Conflict(new{Message="User already exists", Email=result.Email});
+                return Conflict(new GoogleRequestResponseDto{IsCreated = false, Message = "User already exists", Email = result.Email});
             }
 
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Path = "/"
-            };
-            Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+            // var cookieOptions = new CookieOptions
+            // {
+            //     HttpOnly = true,
+            //     Secure = true,
+            //     SameSite = SameSiteMode.None,
+            //     Expires = DateTime.UtcNow.AddDays(7),
+            //     Path = "/"
+            // };
+            // Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
 
-            return Ok(new
-            {
-                Token = result.Token,
-                data = result
-            });
+            return Ok(new GoogleRequestResponseDto{IsCreated = true});
+
         }catch (Exception e)
         {
             return BadRequest(new {Error = e.Message});
@@ -62,29 +59,22 @@ email Signup - Accepts user details (name, email, phone, and password) from the 
     public async Task<IActionResult> EmailSignup([FromBody] EmailRequestDto request){
         try
         {
-            Console.WriteLine("Came");
             var result = await _authServices.EmailSignup(request);
-            Console.WriteLine("Came");
             if(result.UserExist)
             {
-                return Conflict(new{Message="User already exists", Email=result.Email});
+                return Conflict(new GoogleRequestResponseDto{IsCreated = false, Message = "User already exists", Email = result.Email});
             }
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Path = "/"
-            };
-              Console.WriteLine("Came");
-            Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
-            Console.WriteLine("Came");
-            return Ok(new
-            {
-                Token = result.Token,
-                data = result
-            });
+            // var cookieOptions = new CookieOptions
+            // {
+            //     HttpOnly = true,
+            //     Secure = true,
+            //     SameSite = SameSiteMode.None,
+            //     Expires = DateTime.UtcNow.AddDays(7),
+            //     Path = "/"
+            // };
+            // Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+            return Ok(new GoogleRequestResponseDto{IsCreated = true});
+
         }catch(Exception e)
         {
             return BadRequest(new { Error = e.Message });
